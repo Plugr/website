@@ -2,30 +2,58 @@ var Firebase = require('firebase');
 
 var ref = new Firebase('https://hiveio.firebaseio.com/');
 
-var user = 'riyer' //changes based on user input    
+var user = 'riyer' //changes based on user input
+
+var sensorPorts = 4
+
+var portValues = []
+
+var portAvailability = [] //true means available , false means not available
+
+
+
+checkPortAvailability()
+
+
+
+function checkPortAvailability(){
+    ref.child("users").child(user).child('ports').on("value", function(snapshot) {
+        var index = 0
+        snapshot.forEach(function(childSnapshot){
+            console.log(childSnapshot.child('type').val())
+            if(childSnapshot.child('type').val() == 'empty'){
+                portAvailability[index] = false
+            }else{
+                portAvailability[index] = true
+            }
+
+            index++
+        })
+    });  
+}
 
 setInterval(function(){
-    
-    if(ref.child('users').child('riyer').child('port1').child('type') != 'empty'){
-        ref.child('users').child('riyer').child('port1').update({
-            value: Math.random() * 1000   
-        })
+        
+
+
+    for(var j = 0; j < sensorPorts; j++){
+        if(portAvailability[j]){
+            portValues[j] = Math.random() * 1000 //legitimate value of port1
+        }else{
+            portValues[j] = 'empty'
+        }
     }
-                                                 
-    if(ref.child('users').child('riyer').child('port2').child('type') != 'empty'){
-        ref.child('users').child('riyer').child('port2').update({
-            value: Math.random() * 1000   
-        })
-    }  
-                                                 
-    
-    if(ref.child('users').child('riyer').child('port3').child('type') != 'empty'){
-        ref.child('users').child('riyer').child('port3').update({
-            value: Math.random() * 1000   
-        })
+
+    for(var i = 0; i < sensorPorts; i++){
+        
+            ref.child('users').child(user).child('ports').child('port' + (i+1)).update({
+                value: portValues[i]
+            })
     }
                                                  
 
     
-}, 100)
+}, 500)
+
+
 
