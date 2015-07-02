@@ -1,35 +1,30 @@
-var Firebase = require("firebase");
+var Firebase = require('firebase');
 
-var ref = new Firebase("https://plugr.firebaseio.com/");
+var ref = new Firebase('https://plugr.firebaseio.com/');
 
 
 setInterval(function(){
-    ref.child("riyer").update({
-        moistureSensor: Math.random() * 100,
-        lightSensor: Math.random() * 100,
-        temperatureSensor: Math.random() * 100
-
-    })
     
-    ref.child("rjohnson").update({
-        moistureSensor: Math.random() * 100,
-        lightSensor: Math.random() * 100,
-        temperatureSensor: Math.random() * 100
-
-    })
+    if(ref.child('users').child('riyer').child('port1').child('type') != ''){
+        ref.child('users').child('riyer').child('port1').update({
+            value: Math.random() * 1000   
+        })
+    }
+                                                 
+    if(ref.child('users').child('riyer').child('port2').child('type') != ''){
+        ref.child('users').child('riyer').child('port2').update({
+            value: Math.random() * 1000   
+        })
+    }  
+                                                 
     
-    ref.child("ajain").update({
-        moistureSensor: Math.random() * 100,
-        lightSensor: Math.random() * 100,
-        temperatureSensor: Math.random() * 100
+    if(ref.child('users').child('riyer').child('port3').child('type') != ''){
+        ref.child('users').child('riyer').child('port3').update({
+            value: Math.random() * 1000   
+        })
+    }
+                                                 
 
-    })
     
-    ref.child("srucker").update({
-        moistureSensor: Math.random() * 100,
-        lightSensor: Math.random() * 100,
-        temperatureSensor: Math.random() * 100
-
-    })
 }, 100)
 
